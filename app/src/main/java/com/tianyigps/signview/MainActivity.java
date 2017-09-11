@@ -33,11 +33,10 @@ public class MainActivity extends AppCompatActivity {
 
 
         File file = new File(path);
-        if (!file.exists()) {
-            throw new NullPointerException("file not exist");
+        if (file.exists()) {
+            Bitmap bitmap = BitmapFactory.decodeFile(path);
+            mSignView.setBitmap(bitmap);
         }
-        Bitmap bitmap = BitmapFactory.decodeFile(path);
-        mSignView.setBitmap(bitmap);
 
         mButtonSave.setOnClickListener(new View.OnClickListener() {
             @Override

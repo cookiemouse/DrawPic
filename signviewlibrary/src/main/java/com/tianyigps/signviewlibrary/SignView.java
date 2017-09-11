@@ -24,6 +24,8 @@ public class SignView extends View {
 
     private Bitmap mBitmap;
 
+    private boolean mIsNull = true;
+
     public SignView(Context context) {
         this(context, null);
     }
@@ -52,6 +54,7 @@ public class SignView extends View {
 
         if (null != mBitmap) {
             canvas.drawBitmap(mBitmap, 0, 0, mPaint);
+            mIsNull = false;
         }
 
         canvas.drawPath(mPath, mPaint);
@@ -61,10 +64,12 @@ public class SignView extends View {
     public boolean onTouchEvent(MotionEvent event) {
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN: {
+                mIsNull = false;
                 mPath.moveTo(event.getX(), event.getY());
                 break;
             }
             case MotionEvent.ACTION_MOVE: {
+                mIsNull = false;
                 mPath.lineTo(event.getX(), event.getY());
                 postInvalidate();
                 break;
@@ -79,6 +84,7 @@ public class SignView extends View {
 
     //  清除图案
     public void clearPath() {
+        mIsNull = true;
         mPath.reset();
         mBitmap = null;
         postInvalidate();
@@ -96,5 +102,10 @@ public class SignView extends View {
         Canvas canvas = new Canvas(bitmap);
         this.draw(canvas);
         return bitmap;
+    }
+
+    //  返回是否为空
+    public boolean isNull() {
+        return mIsNull;
     }
 }
